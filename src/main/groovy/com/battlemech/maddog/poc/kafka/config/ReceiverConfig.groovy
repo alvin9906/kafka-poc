@@ -1,4 +1,4 @@
-package org.maddog.poc.kafka.config
+package com.battlemech.maddog.poc.kafka.config
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.IntegerDeserializer
@@ -31,7 +31,7 @@ class ReceiverConfig {
                 StringDeserializer.class)
         // consumer groups allow a pool of processes to divide the work of
         // consuming and processing records
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "poc")
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "group1")
 
         props
     }

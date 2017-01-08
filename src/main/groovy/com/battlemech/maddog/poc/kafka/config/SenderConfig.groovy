@@ -1,4 +1,4 @@
-package org.maddog.poc.kafka.config
+package com.battlemech.maddog.poc.kafka.config
 
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.IntegerSerializer

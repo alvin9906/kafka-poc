@@ -1,4 +1,4 @@
-package org.maddog.poc.kafka.service
+package com.battlemech.maddog.poc.kafka
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,19 +10,15 @@ import org.springframework.util.concurrent.ListenableFuture
 import org.springframework.util.concurrent.ListenableFutureCallback
 
 @Component
-class SenderService {
+class SenderHandler {
 
-    static final Logger LOG = LoggerFactory.getLogger(SenderService.class)
+    static final Logger LOG = LoggerFactory.getLogger(SenderHandler.class)
 
     @Autowired
     KafkaTemplate<Integer, String> kafkaTemplate
 
-    void sendMessage(String topic, String message) {
-        // the KafkaTemplate provides asynchronous send methods returning a
-        // Future
+    void sendMessageAsync(String topic, String message) {
         ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message)
-        // you can register a callback with the listener to receive the result
-        // of the send asynchronously
         future.addCallback(
                 new ListenableFutureCallback<SendResult<Integer, String>>() {
 
@@ -37,8 +33,16 @@ class SenderService {
                         LOG.error("unable to send message='{}'", message, ex)
                     }
                 })
+    }
 
-        // alternatively, to block the sending thread, to await the result,
-        // invoke the future’s get() method
+    void sendMessageSync(String topic, String message){
+        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message)
+        try{
+            SendResult<Integer, String> result = future.get()
+            LOG.info("sent message='{}' with offset={}", message, result.getRecordMetadata().offset())
+
+        } catch (Exception ex){
+            LOG.error("unable to send message='{}'", message, ex)
+        }
     }
 }
