@@ -1,4 +1,4 @@
-package com.battlemech.maddog.poc.kafka
+package com.battletech.maddog.poc.kafka
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component
 class SendMessageJob {
 
     @Autowired
-    SenderHandler senderService
+    SenderHandler senderHandler
 
     @Scheduled(initialDelayString = "5000", fixedDelayString = "10000")
     void sendMessageJob(){
-        senderService.sendMessageSync("default.t", "Test Message")
+        senderHandler.sendMessageSync("default.t", "Test Message ${System.currentTimeMillis()}")
     }
 
 }

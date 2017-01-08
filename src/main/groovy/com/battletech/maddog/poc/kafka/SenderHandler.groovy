@@ -1,4 +1,4 @@
-package com.battlemech.maddog.poc.kafka
+package com.battletech.maddog.poc.kafka
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,16 +15,15 @@ class SenderHandler {
     static final Logger LOG = LoggerFactory.getLogger(SenderHandler.class)
 
     @Autowired
-    KafkaTemplate<Integer, String> kafkaTemplate
+    KafkaTemplate<Integer,String> kafkaTemplate
 
     void sendMessageAsync(String topic, String message) {
-        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message)
+        ListenableFuture<SendResult<?, String>> future = kafkaTemplate.send(topic, message)
         future.addCallback(
-                new ListenableFutureCallback<SendResult<Integer, String>>() {
+                new ListenableFutureCallback<SendResult<Integer,String>>() {
 
                     @Override
-                    void onSuccess(
-                            SendResult<Integer, String> result) {
+                    void onSuccess(SendResult<Integer,String> result) {
                         LOG.info("sent message='{}' with offset={}", message, result.getRecordMetadata().offset())
                     }
 

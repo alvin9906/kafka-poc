@@ -16,7 +16,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
-group 'com.battlemech.maddog'
+group 'com.battletech.maddog'
 version '0.1'
 
 ext {
@@ -42,9 +42,11 @@ task wrapper(type: Wrapper){
 	gradleVersion = '2.10'
 }
 
+def springKafkaVersion = springBootVersion.startsWith("1.4")?"1.1.2.RELEASE":"1.0.4.RELEASE"
+
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter")
-	compile("org.springframework.kafka:spring-kafka:1.1.1.RELEASE")
+	compile("org.springframework.kafka:spring-kafka:$springKafkaVersion")
 	compile("org.codehaus.groovy:groovy-all")
 }
 
